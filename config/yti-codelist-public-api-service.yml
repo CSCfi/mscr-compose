@@ -1,0 +1,85 @@
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  application:
+    name: yti-codelist-public-api-service
+
+server:
+  port: 9601
+
+tomcat:
+  ajp:
+    port: 9604
+
+frontend:
+  scheme: http
+  host: localhost
+  port: 9600
+
+application:
+  scheme: http
+  host: localhost
+  port: ${server.port}
+  contextPath: "/codelist-api"
+  access-log: true
+
+groupmanagement:
+  url: ${environment.groupmanagement.url}
+  publicUrl: ${environment.groupmanagement.public-url}
+
+session:
+  timeout-mins: 10
+
+impersonate:
+  allowed: true
+
+fake:
+  login:
+    allowed: true
+
+yti_codelist_public_api_service_elastic_host: ${environment.codelist-elastic.host}
+yti_codelist_public_api_service_elastic_port: ${environment.codelist-elastic.port}
+yti_codelist_public_api_service_elastic_cluster: ${environment.codelist-elastic.cluster}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  application:
+    name: yti-codelist-public-api-service
+
+server:
+  port: 9601
+
+frontend:
+  scheme: http
+  host: localhost
+  port: 9600
+
+application:
+  scheme: http
+  host: localhost
+  port: ${server.port}
+  contextPath: "/codelist-api"
+  access-log: true
+
+groupmanagement:
+  url: ${environment.groupmanagement.url}
+  publicUrl: ${environment.groupmanagement.public-url}
+
+session:
+  timeout-mins: 10
+
+impersonate:
+  allowed: true
+
+fake:
+  login:
+    allowed: true
+
+yti_codelist_public_api_service_elastic_host: ${environment.codelist-elastic.host}
+yti_codelist_public_api_service_elastic_port: ${environment.codelist-elastic.port}
+yti_codelist_public_api_service_elastic_cluster: ${environment.codelist-elastic.cluster}

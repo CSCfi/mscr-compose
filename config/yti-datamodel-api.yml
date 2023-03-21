@@ -1,0 +1,119 @@
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  elasticsearch:
+    uris: http://${environment.datamodel-elastic.host}:${environment.datamodel-elastic.port}
+
+server:
+  port: 9004
+
+tomcat:
+  ajp:
+    port: 9001
+
+elasticHost: ${environment.datamodel-elastic.host}
+elasticHttpPort: ${environment.datamodel-elastic.port}
+elasticHttpScheme: http
+
+endpoint: http://${environment.fuseki.host}:${environment.fuseki.port}
+
+devMode: true
+defaultTermedAPI: http://${environment.termed-api.host}:${environment.termed-api.port}/api/
+
+defaultGroupManagementAPI: ${environment.groupmanagement.url}/public-api/
+privateGroupManagementAPI: ${environment.groupmanagement.url}/private-api/
+publicGroupManagementAPI: ${environment.groupmanagement.public-url}
+defaultSuomiCodeServerAPI: ${environment.codelist.public-url}/codelist-api/api/
+defaultTermedAPIUser: admin
+defaultTermedAPIUserSecret: admin
+publicGroupManagementFrontend: ${environment.groupmanagement.public-url}
+publicSuomiCodeServerFrontend: ${environment.codelist.public-url}
+defaultTerminologyAPI: ${environment.terminology.url}/terminology-api/api/
+privateTerminologyAPI: ${environment.terminology.url}/terminology-api/private/
+publicTerminologyFrontend: ${environment.terminology.public-url}
+publicCommentsFrontend: ${environment.comments.public-url}
+publicTermedAPI: ${environment.terminology.public-url}/termed-api/
+messagingEnabled: ${environment.messaging.enabled}
+defaultNamespace: http://uri.suomi.fi/datamodel/ns/
+
+provenance: true
+
+migration:
+  enabled: true
+  packageLocation: fi.vm.yti.datamodel.api.migration.task
+
+groupmanagement:
+  url: ${environment.groupmanagement.url}
+  public.url: ${environment.groupmanagement.public-url}
+
+env: local
+
+fake:
+  login:
+    allowed: true
+
+impersonate:
+  allowed: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  elasticsearch:
+    uris: http://${environment.datamodel-elastic.host}:${environment.datamodel-elastic.port}
+      
+server:
+  port: 9004
+
+tomcat:
+  ajp:
+    port: 9001
+
+elasticHost: ${environment.datamodel-elastic.host}
+elasticHttpPort: ${environment.datamodel-elastic.port}
+elasticHttpScheme: http
+
+endpoint: http://${environment.fuseki.host}:${environment.fuseki.port}
+
+devMode: true
+defaultTermedAPI: http://${environment.termed-api.host}:${environment.termed-api.port}/api/
+
+defaultGroupManagementAPI: ${environment.groupmanagement.url}/public-api/
+publicGroupManagementAPI: ${environment.groupmanagement.public-url}
+privateGroupManagementAPI: ${environment.groupmanagement.url}/private-api/
+defaultSuomiCodeServerAPI: ${environment.codelist.public-url}/codelist-api/api/v1/
+defaultTermedAPIUser: admin
+defaultTermedAPIUserSecret: admin
+publicGroupManagementFrontend: ${environment.groupmanagement.public-url}
+publicSuomiCodeServerFrontend: ${environment.codelist.public-url}
+defaultTerminologyAPI: ${environment.terminology.url}/
+publicTerminologyFrontend: ${environment.terminology.public-url}
+publicCommentsFrontend: ${environment.comments.public-url}
+publicTermedAPI: ${environment.terminology.public-url}/termed-api/
+messagingEnabled: ${environment.messaging.enabled}
+defaultNamespace: http://uri.suomi.fi/datamodel/ns/
+openSearchHost: ${environment.opensearch.host}
+openSearchHttpPort: ${environment.opensearch.port}
+
+provenance: true
+
+migration:
+  enabled: true
+  packageLocation: fi.vm.yti.datamodel.api.migration.task
+
+groupmanagement:
+  url: ${environment.groupmanagement.url}
+  public.url: ${environment.groupmanagement.public-url}
+
+env: local
+
+fake:
+  login:
+    allowed: true
+
+impersonate:
+  allowed: true
+

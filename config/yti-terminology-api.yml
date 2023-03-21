@@ -1,0 +1,180 @@
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 30MB
+      max-request-size: 30MB
+  activemq:
+    broker-url: "tcp://${environment.activemq.host}:${environment.activemq.port}"
+    user: yti
+    password: "test"
+
+tomcat:
+  ajp:
+    port: 9101
+
+server:
+  port: 9103
+  servlet:
+    context-path: /terminology-api
+  compression:
+    enabled: true
+    mime-types: text/html,text/css,application/javascript,application/json
+
+api:
+  url: http://${environment.termed-api.host}:${environment.termed-api.port}/api
+  user: admin
+  pw: admin
+
+search:
+  host:
+    url: ${environment.terminology-elastic.host}
+    port: ${environment.terminology-elastic.port}
+    scheme: http
+  index:
+    name: concepts,vocabularies
+    file: create_index_default.json
+    mapping:
+      type: concept,vocabulary
+      file: create_concept_mappings.json,create_vocabulary_mappings.json
+    deleteIndexOnAppRestart: true
+
+groupmanagement:
+  url: ${environment.groupmanagement.url}
+  public:
+    url: ${environment.groupmanagement.public-url}
+
+mq:
+  active:
+    subsystem: Vocabulary
+
+front:
+  restrictFilterOptions: true
+
+namespace:
+  root: http://uri.suomi.fi/terminology/
+
+organization:
+  graph: 228cce1e-8360-4039-a3f7-725df5643354
+
+notify:
+  hook:
+    url: ${environment.terminology.url}/terminology-api/private/v1/notify
+
+services:
+  codeListUrl: ${environment.codelist.public-url}
+  dataModelUrl: ${environment.datamodel.public-url}
+  groupManagementUrl: ${environment.groupmanagement.public-url}
+  commentsUrl: ${environment.comments.public-url}
+  messagingEnabled: ${environment.messaging.enabled}
+  env: local
+
+impersonate:
+  allowed: true
+
+migration:
+  enabled: true
+  packageLocation: fi.vm.yti.terminology.api.migration.task
+
+application:
+  public:
+    url: ${environment.terminology.public-url}
+
+fake:
+  login:
+    allowed: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 30MB
+      max-request-size: 30MB
+  activemq:
+    broker-url: "tcp://${environment.activemq.host}:${environment.activemq.port}"
+    user: yti
+    password: "test"
+
+tomcat:
+  ajp:
+    port: 9101
+
+server:
+  port: 9103
+  servlet:
+    context-path: /terminology-api
+  compression:
+    enabled: true
+    mime-types: text/html,text/css,application/javascript,application/json
+
+search:
+  host:
+    url: ${environment.terminology-elastic.host}
+    port: ${environment.terminology-elastic.port}
+    scheme: http
+  index:
+    name: concepts,vocabularies
+    file: create_index_default.json
+    mapping:
+      type: concept,vocabulary
+      file: create_concept_mappings.json,create_vocabulary_mappings.json
+    deleteIndexOnAppRestart: true
+
+api:
+  url: http://${environment.termed-api.host}:${environment.termed-api.port}/api
+  user: admin
+  pw: admin
+
+groupmanagement:
+  url: ${environment.groupmanagement.url}
+  public:
+    url: ${environment.groupmanagement.public-url}
+
+mq:
+  active:
+    subsystem: Vocabulary
+
+front:
+  restrictFilterOptions: true
+
+namespace:
+  root: http://uri.suomi.fi/terminology/
+
+organization:
+  graph: 228cce1e-8360-4039-a3f7-725df5643354
+
+notify:
+  hook:
+    url: ${environment.terminology.url}/terminology-api/private/v1/notify
+
+services:
+  codeListUrl: ${environment.codelist.public-url}
+  dataModelUrl: ${environment.datamodel.public-url}
+  groupManagementUrl: ${environment.groupmanagement.public-url}
+  commentsUrl: ${environment.comments.public-url}
+  messagingEnabled: ${environment.messaging.enabled}
+  env: docker
+
+impersonate:
+  allowed: true
+
+migration:
+  enabled: true
+  packageLocation: fi.vm.yti.terminology.api.migration.task
+
+application:
+  public:
+    url: ${environment.terminology.public-url}
+
+fake:
+  login:
+    allowed: true
+

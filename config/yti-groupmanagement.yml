@@ -1,0 +1,139 @@
+---
+spring:
+  profile: local
+  application:
+    name: yti-groupmanagement
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${environment.postgres.host}:${environment.postgres.port}/${service.database-name}
+    username: postgres
+    password:
+  flyway:
+    table: schema_version
+
+service:
+  database-name: groupmanagement
+
+server:
+  port: 9302
+
+tomcat:
+  ajp:
+    port: 9300
+
+logging:
+  level:
+    fi.vm.yti: DEBUG
+
+registration:
+  url: https://id.eduuni.fi/signup?returnUrl=https://yhteentoimiva.suomi.fi
+
+groupmanagement:
+  url: ${environment.groupmanagement.url}
+
+environment:
+  url: ${environment.groupmanagement.public-url}
+
+send:
+  admin:
+    emails: false
+    
+admin:
+  email: "y-alusta.tuotetiimi@dvv.fi"
+
+application:
+  codeListUrl: ${environment.codelist.public-url}
+  dataModelUrl: ${environment.datamodel.public-url}
+  terminologyUrl: ${environment.terminology.public-url}
+  commentsUrl: ${environment.comments.public-url}
+  env: local
+  messagingEnabled: ${environment.messaging.enabled}
+
+jwt:
+  secret: TESTSECRET
+
+fake:
+  login:
+    allowed: true
+
+impersonate:
+  allowed: true
+
+---
+spring:
+  profile: docker
+  application:
+    name: yti-groupmanagement
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${environment.postgres.host}:${environment.postgres.port}/${service.database-name}
+    username: postgres
+    password:
+  flyway:
+    table: schema_version
+
+service:
+  database-name: groupmanagement
+
+server:
+  port: 9302
+
+tomcat:
+  ajp:
+    port: 9300
+
+logging:
+  level:
+    fi.vm.yti: DEBUG
+
+registration:
+  url: https://id.eduuni.fi/signup?returnUrl=https://yhteentoimiva.suomi.fi
+
+groupmanagement:
+  url: ${environment.groupmanagement.url}
+
+environment:
+  url: ${environment.groupmanagement.public-url}
+
+send:
+  admin:
+    emails: false
+
+admin:
+  email: "y-alusta.tuotetiimi@dvv.fi"
+
+application:
+  codeListUrl: ${environment.codelist.public-url}
+  dataModelUrl: ${environment.datamodel.public-url}
+  terminologyUrl: ${environment.terminology.public-url}
+  commentsUrl: ${environment.comments.public-url}
+  env: local
+  messagingEnabled: ${environment.messaging.enabled}
+
+jwt:
+  secret: TESTSECRET
+
+fake:
+  login:
+    allowed: true
+
+impersonate:
+  allowed: true

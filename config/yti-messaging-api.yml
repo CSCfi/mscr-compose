@@ -1,0 +1,168 @@
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  application:
+    name: yti-messaging-api
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  jpa:
+    show-sql: false
+    generate-ddl: false
+    database-platform: "org.hibernate.dialect.PostgreSQL9Dialect"
+    properties:
+      hibernate:
+        ddl-auto: none
+        dialect: "org.hibernate.dialect.PostgreSQL9Dialect"
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+service:
+  database-name: yti_messaging
+
+server:
+  port: 9801
+
+tomcat:
+  ajp:
+    port: 9802
+
+groupmanagement:
+  url: ${environment.groupmanagement.url}
+  publicUrl: ${environment.groupmanagement.public-url}
+
+codelist:
+  url: ${environment.codelist.url}
+  publicUrl: ${environment.codelist.public-url}
+
+terminology:
+  url: ${environment.terminology.url}
+  publicUrl: ${environment.terminology.public-url}
+
+datamodel:
+  publicUrl: ${environment.datamodel.public-url}
+
+comments:
+  publicUrl: ${environment.comments.public-url}
+
+application:
+  scheme: http
+  host: localhost
+  port: ${server.port}
+  contextPath: "/messaging-api"
+  access-log: true
+  env: local
+
+session:
+  timeout-mins: 10
+
+hikari:
+  jdbcUrl: jdbc:postgresql://${environment.postgres.host}:${environment.postgres.port}/${service.database-name}
+  username: postgres
+  password:
+  minimumIdle: 10
+  maximumPoolSize: 10
+
+impersonate:
+  allowed: true
+
+fake:
+  login:
+    allowed: true
+
+admin:
+  email: "y-alusta.tuotetiimi@dvv.fi"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  application:
+    name: yti-messaging-api
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  jpa:
+    show-sql: false
+    generate-ddl: false
+    database-platform: "org.hibernate.dialect.PostgreSQL9Dialect"
+    properties:
+      hibernate:
+        ddl-auto: none
+        dialect: "org.hibernate.dialect.PostgreSQL9Dialect"
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+service:
+  database-name: yti_messaging
+
+server:
+  port: 9801
+
+tomcat:
+  ajp:
+    port: 9802
+
+groupmanagement:
+  url: ${environment.groupmanagement.url}
+  publicUrl: ${environment.groupmanagement.public-url}
+
+codelist:
+  url: ${environment.codelist.url}
+  publicUrl: ${environment.codelist.public-url}
+
+terminology:
+  url: ${environment.terminology.url}
+  publicUrl: ${environment.terminology.public-url}
+
+datamodel:
+  publicUrl: ${environment.datamodel.public-url}
+
+comments:
+  publicUrl: ${environment.comments.public-url}
+
+application:
+  scheme: http
+  host: localhost
+  port: ${server.port}
+  contextPath: "/messaging-api"
+  access-log: true
+  env: local
+
+session:
+  timeout-mins: 10
+
+hikari:
+  jdbcUrl: jdbc:postgresql://${environment.postgres.host}:${environment.postgres.port}/${service.database-name}
+  username: postgres
+  password:
+  minimumIdle: 10
+  maximumPoolSize: 10
+
+impersonate:
+  allowed: true
+
+fake:
+  login:
+    allowed: true
+
+admin:
+  email: "y-alusta.tuotetiimi@dvv.fi"
+

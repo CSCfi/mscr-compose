@@ -1,0 +1,171 @@
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  application:
+    name: yti-codelist-content-intake-service
+  jpa:
+    show-sql: false
+    generate-ddl: false
+    database-platform: "org.hibernate.dialect.PostgreSQL9Dialect"
+    properties:
+      hibernate:
+        ddl-auto: none
+        dialect: "org.hibernate.dialect.PostgreSQL9Dialect"
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+service:
+  database-name: yti_codelist
+
+server:
+  port: 9602
+
+tomcat:
+  ajp:
+    port: 9603
+
+groupmanagement:
+  url: ${environment.groupmanagement.url}
+  publicUrl: ${environment.groupmanagement.public-url}
+
+terminology:
+  url: ${environment.terminology.url}
+  publicUrl: ${environment.terminology.public-url}
+
+datamodel:
+  publicUrl: ${environment.datamodel.public-url}
+
+comments:
+  publicUrl: ${environment.comments.public-url}
+
+messaging:
+  enabled: ${environment.messaging.enabled}
+
+application:
+  scheme: http
+  host: localhost
+  port: ${server.port}
+  contextPath: "/codelist-intake"
+  access-log: true
+  initializeContent: true
+  env: local
+
+frontend:
+  defaultStatus: null
+  codeSchemeSortMode: "boostStatus"
+
+publicapi:
+  scheme: http
+  host: localhost
+  port: 9601
+  contextPath: "/codelist-api"
+
+urisuomi:
+  scheme: http
+  host: uri.suomi.fi
+  contextPath: "/codelist"
+
+session:
+  timeout-mins: 10
+
+hikari:
+  jdbcUrl: jdbc:postgresql://${environment.postgres.host}:${environment.postgres.port}/${service.database-name}
+  username: postgres
+  password:
+  minimumIdle: 20
+  maximumPoolSize: 100
+
+yti_codelist_content_intake_service_elastic_host: ${environment.codelist-elastic.host}
+yti_codelist_content_intake_service_elastic_port: ${environment.codelist-elastic.port}
+yti_codelist_content_intake_service_elastic_cluster: ${environment.codelist-elastic.cluster}
+
+impersonate:
+  allowed: true
+
+fake:
+  login:
+    allowed: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  application:
+    name: yti-codelist-content-intake-service
+
+service:
+  database-name: yti_codelist
+
+server:
+  port: 9602
+
+tomcat:
+  ajp:
+    port: 9603
+
+groupmanagement:
+  url: ${environment.groupmanagement.url}
+  publicUrl: ${environment.groupmanagement.public-url}
+
+terminology:
+  url: ${environment.terminology.url}
+  publicUrl: ${environment.terminology.public-url}
+
+datamodel:
+  publicUrl: ${environment.datamodel.public-url}
+
+comments:
+  publicUrl: ${environment.comments.public-url}
+
+messaging:
+  enabled: ${environment.messaging.enabled}
+
+application:
+  scheme: http
+  host: localhost
+  port: ${server.port}
+  contextPath: "/codelist-intake"
+  access-log: true
+  initializeContent: true
+  env: local
+
+frontend:
+  defaultStatus: null
+  codeSchemeSortMode: "boostStatus"
+
+publicapi:
+  scheme: http
+  host: localhost
+  port: 9601
+  contextPath: "/codelist-api"
+
+urisuomi:
+  scheme: http
+  host: uri.suomi.fi
+  contextPath: "/codelist"
+
+session:
+  timeout-mins: 10
+
+hikari:
+  jdbcUrl: jdbc:postgresql://${environment.postgres.host}:${environment.postgres.port}/${service.database-name}
+  username: postgres
+  password:
+  minimumIdle: 10
+  maximumPoolSize: 10
+
+yti_codelist_content_intake_service_elastic_host: ${environment.codelist-elastic.host}
+yti_codelist_content_intake_service_elastic_port: ${environment.codelist-elastic.port}
+yti_codelist_content_intake_service_elastic_cluster: ${environment.codelist-elastic.cluster}
+
+impersonate:
+  allowed: true
+
+fake:
+  login:
+    allowed: true
+
