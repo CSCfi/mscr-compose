@@ -196,3 +196,4 @@ spring.config.import=optional:configserver:
 11. With containers running, go to /mscr-compose/scripts directory (different project thant mscr-datamodel-api)
 12. Run ./init-admin.sh and go to http://localhost:9302/. There you should find 'Impersonate user' or 'Esiinny käyttäjänä' button that allows you to generate a token
 13. Go to http://localhost:9004/datamodel-api/swagger-ui/index.html, click Authorize and insert your token to use Swagger
+14. Go to your local Apache Jena Fuseki instance at http://localhost:3030/. Click 'manage datasets' and create *persistent* 'schema' dataset. Now your PUT api calls to v2/schema will go through
