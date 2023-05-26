@@ -42,8 +42,6 @@ After that, run ```./build.sh in yti-datamodel-api```
 ### yti-datamodel-ui
 After you have built the correct java17 image for the M1 processor with ```docker build --platform linux/arm64 -t yti-datamodel-api .``` use ```./build.sh```
 
-*NB!!! (comment)* Should it be yti-datamodel-ui at the end of the docker build command? It's from my notes and I have that shell long closed, so I'm not sure about it
-
 ### yti-comments-api
 ```docker build -f docker/Dockerfile -t yti-comments-api  .```
 
