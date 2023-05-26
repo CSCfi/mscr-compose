@@ -1,4 +1,3 @@
-
 # (To be updated?) Instructions for generating docker images from VRK-YTI repository
 
 ## 1. Prerequisites

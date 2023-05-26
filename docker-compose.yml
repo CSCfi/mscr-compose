@@ -60,7 +60,7 @@ services:
   # POSTGRES
 
   yti-postgres:
-    image: docker-registry.rahti.csc.fi/mscr-test/yti-postgres:latest
+    image:  docker-registry.rahti.csc.fi/mscr-test/yti-postgres:latest-arm64-v8
     container_name: yti-postgres
     restart: always
     ports:
@@ -77,7 +77,7 @@ services:
   # ACTIVEMQ
 
   yti-activemq:
-    image: docker-registry.rahti.csc.fi/mscr-test/yti-activemq:latest
+    image: docker-registry.rahti.csc.fi/mscr-test/yti-activemq:latest-arm64-v8
     container_name: yti-activemq
     restart: always
     ports:
@@ -96,7 +96,7 @@ services:
   # GROUPMANAGEMENT
 
   yti-groupmanagement:
-    image: docker-registry.rahti.csc.fi/mscr-test/yti-groupmanagement:latest
+    image: docker-registry.rahti.csc.fi/mscr-test/yti-groupmanagement:latest-arm64-v8
     container_name: yti-groupmanagement
     restart: always
     ports:
@@ -133,8 +133,26 @@ services:
     networks:
      - yti-network
 
+  yti-datamodel-opensearch:
+    image: opensearchproject/opensearch:latest
+    container_name: "yti-datamodel-opensearch"
+    restart: always
+    ports:
+    - "9003:9200"
+    - "9013:9300"
+    environment:
+    - plugins.security.disabled=true
+    - cluster.name=yti-datamodel-opensearch
+    - http.host=0.0.0.0
+    - network.publish_host=127.0.0.1
+    - discovery.type=single-node
+    volumes:
+    - ${DATADIR}/data/logs/yti-datamodel-opensearch:/usr/share/opensearch/logs:z
+    networks:
+    - yti-network
+
   yti-codelist-ui:
-    image: docker-registry.rahti.csc.fi/mscr-test/yti-codelist-ui:latest
+    image: docker-registry.rahti.csc.fi/mscr-test/yti-codelist-ui:latest-arm64-v8
     container_name: yti-codelist-ui
     privileged: true
     restart: always
@@ -150,7 +168,7 @@ services:
      - yti-network
 
   yti-codelist-content-intake-service:
-    image: docker-registry.rahti.csc.fi/mscr-test/yti-codelist-content-intake-service:latest
+    image: docker-registry.rahti.csc.fi/mscr-test/yti-codelist-content-intake-service:latest-arm64-v8
     container_name: yti-codelist-content-intake-service
     restart: always
     ports:
@@ -173,7 +191,7 @@ services:
      - yti-network
 
   yti-codelist-public-api-service:
-    image: docker-registry.rahti.csc.fi/mscr-test/yti-codelist-public-api-service:latest
+    image: docker-registry.rahti.csc.fi/mscr-test/yti-codelist-public-api-service:latest-arm64-v8
     container_name: yti-codelist-public-api-service
     restart: always
     ports:
@@ -194,7 +212,7 @@ services:
   # TERMINOLOGY
 
   yti-terminology-termed-api:
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-terminology-termed-api:latest"
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-terminology-termed-api:latest-arm64-v8"
     container_name: "yti-terminology-termed-api"
     restart: always
     environment:
@@ -213,7 +231,7 @@ services:
      - yti-network
 
   yti-terminology-elasticsearch:
-    image: "docker-registry.rahti.csc.fi/mscr-test/mscr-elasticsearch:6.8.22"
+    image: "docker-registry.rahti.csc.fi/mscr-elasticsearch:6.8.22-arm64-v8"
     container_name: "yti-terminology-elasticsearch"
     restart: always
     ports:
@@ -227,7 +245,7 @@ services:
      - yti-network
 
   yti-terminology-api:
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-terminology-api:latest"
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-terminology-api:latest-arm64-v8"
     container_name: "yti-terminology-api"
     restart: always
     environment:
@@ -255,7 +273,7 @@ services:
      - yti-network
 
   yti-terminology-ui:
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-terminology-ui:latest"
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-terminology-ui:latest-arm64-v8"
     container_name: "yti-terminology-ui"
     privileged: true
     restart: always
@@ -271,7 +289,7 @@ services:
   # DATAMODEL
 
   yti-datamodel-ui:    
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-datamodel-ui:latest-build"
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-datamodel-ui:latest-arm64-v8"
     container_name: "yti-datamodel-ui"
     restart: always
     ports:
@@ -284,7 +302,7 @@ services:
      - yti-datamodel-api
   
   yti-datamodel-elasticsearch:    
-    image: "docker-registry.rahti.csc.fi/mscr-test/mscr-elasticsearch:6.8.22"
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.22
     container_name: "yti-datamodel-elasticsearch"
     restart: always
     ports:
@@ -302,7 +320,7 @@ services:
      - yti-network
 
   yti-datamodel-api:    
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-datamodel-api:latest"
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-datamodel-api:latest-arm64-v8"
     container_name: "yti-datamodel-api"
     expose:
      - "9001"
@@ -319,18 +337,18 @@ services:
     depends_on:
      - yti-fuseki
      - yti-groupmanagement
-     - yti-datamodel-elasticsearch
+     - yti-datamodel-opensearch
      - yti-terminology-termed-api
     links:
      - yti-fuseki
      - yti-groupmanagement
-     - yti-datamodel-elasticsearch
+     - yti-datamodel-opensearch
      - yti-terminology-termed-api
     networks:
      - yti-network
 
   yti-fuseki:
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-fuseki"
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-fuseki:latest-arm64-v8"
     container_name: "yti-fuseki"
     restart: always
     ports:
@@ -343,7 +361,7 @@ services:
   # COMMENTS
 
   yti-comments-api:
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-comments-api:latest"
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-comments-api:latest-arm64-v8"
     container_name: "yti-comments-api"
     restart: always
     ports:
@@ -362,7 +380,7 @@ services:
      - yti-network
 
   yti-comments-ui:
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-comments-ui:latest"
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-comments-ui:latest-arm64-v8"
     container_name: "yti-comments-ui"
     restart: always
     ports:
@@ -379,7 +397,7 @@ services:
   # MESSAGING
 
   yti-messaging-api:
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-messaging-api:latest"
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-messaging-api:latest-arm64-v8"
     container_name: "yti-messaging-api"
     restart: always
     ports:
