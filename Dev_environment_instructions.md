@@ -191,7 +191,7 @@ messagingEnabled=false
 groupmanagement.url=http://localhost:9302
 groupmanagement.public.url=http://localhost:9302
 
-Old elasticsearch properties
+#Old elasticsearch properties
 
 elasticHost=127.0.0.1
 elasticPort=9300
