@@ -18,10 +18,9 @@
 # YTI Comments - UI
 # ---------------------------------------------------------------------------------------
 
-version: '3'
+version: "3"
 
 services:
-
   # KIBANA
   # Just uncomment if you need to analyze indexes
   #yti-codelist-kibana:
@@ -64,15 +63,15 @@ services:
     container_name: yti-postgres
     restart: always
     ports:
-     - "5432:5432"
+      - "5432:5432"
     volumes:
-     - ${DATADIR}/data/logs/yti-postgres:/data/logs/yti-postgres:Z
+      - ${DATADIR}/data/logs/yti-postgres:/data/logs/yti-postgres:Z
     command: postgres -c logging_collector=on -c log_directory=/data/logs/yti-postgres
-    environment: 
+    environment:
       # do not require password in local environment
       POSTGRES_HOST_AUTH_METHOD: trust
     networks:
-     - yti-network
+      - yti-network
 
   # ACTIVEMQ
 
@@ -81,17 +80,17 @@ services:
     container_name: yti-activemq
     restart: always
     ports:
-     - "9900:8161"
-     - "9901:61616"
+      - "9900:8161"
+      - "9901:61616"
     environment:
-     - "ARTEMIS_USERNAME=yti"
-     - "ARTEMIS_PASSWORD=test"
-     - "ARTEMIS_MIN_MEMORY=512M"
-     - "ARTEMIS_MAX_MEMORY=512M"
+      - "ARTEMIS_USERNAME=yti"
+      - "ARTEMIS_PASSWORD=test"
+      - "ARTEMIS_MIN_MEMORY=512M"
+      - "ARTEMIS_MAX_MEMORY=512M"
     volumes:
-     - ${DATADIR}/data/logs/{{ projectname }}:/var/lib/artemis/log:z
+      - ${DATADIR}/data/logs/{{ projectname }}:/var/lib/artemis/log:z
     networks:
-     - yti-network
+      - yti-network
 
   # GROUPMANAGEMENT
 
@@ -100,19 +99,19 @@ services:
     container_name: yti-groupmanagement
     restart: always
     ports:
-     - "9302:9302"
-     - "9300:9300"
+      - "9302:9302"
+      - "9300:9300"
     volumes:
-     - ./config:/config
+      - ./config:/config
     environment:
-     - "SPRING_PROFILES_ACTIVE=docker"
-     - "SPRING_CONFIG_LOCATION=/config/application.yml,/config/yti-groupmanagement.yml"
+      - "SPRING_PROFILES_ACTIVE=docker"
+      - "SPRING_CONFIG_LOCATION=/config/application.yml,/config/yti-groupmanagement.yml"
     depends_on:
-     - yti-postgres
+      - yti-postgres
     links:
-     - yti-postgres
+      - yti-postgres
     networks:
-     - yti-network
+      - yti-network
 
   # CODELIST
 
@@ -121,17 +120,17 @@ services:
     container_name: yti-codelist-elasticsearch
     restart: always
     ports:
-     - "9610:9200"
+      - "9610:9200"
     environment:
-     - xpack.security.enabled=false
-     - cluster.name=yti-codelist-elasticsearch
-     - http.host=0.0.0.0
-     - transport.host=0.0.0.0
-     - network.publish_host=127.0.0.1
-     - discovery.type=single-node
-     - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+      - xpack.security.enabled=false
+      - cluster.name=yti-codelist-elasticsearch
+      - http.host=0.0.0.0
+      - transport.host=0.0.0.0
+      - network.publish_host=127.0.0.1
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     networks:
-     - yti-network
+      - yti-network
 
   yti-codelist-ui:
     image: docker-registry.rahti.csc.fi/mscr-test/yti-codelist-ui:latest
@@ -141,55 +140,55 @@ services:
     ports:
       - "9600:80"
     depends_on:
-     - yti-codelist-content-intake-service
-     - yti-codelist-public-api-service
+      - yti-codelist-content-intake-service
+      - yti-codelist-public-api-service
     links:
-     - yti-codelist-content-intake-service
-     - yti-codelist-public-api-service
+      - yti-codelist-content-intake-service
+      - yti-codelist-public-api-service
     networks:
-     - yti-network
+      - yti-network
 
   yti-codelist-content-intake-service:
     image: docker-registry.rahti.csc.fi/mscr-test/yti-codelist-content-intake-service:latest
     container_name: yti-codelist-content-intake-service
     restart: always
     ports:
-     - "9602:9602"
-     - "9603:9603"
-     - "19602:19602"
+      - "9602:9602"
+      - "9603:9603"
+      - "19602:19602"
     volumes:
-     - ./config:/config
-     - /tmp/data/yti/yti-codelist-intake:/data/yti/yti-codelist-intake
+      - ./config:/config
+      - /tmp/data/yti/yti-codelist-intake:/data/yti/yti-codelist-intake
     command: -j -Xmx2048M -a --spring.profiles.active=default,docker --spring.config.location=/config/application.yml,/config/yti-codelist-content-intake-service.yml
     depends_on:
-     - yti-groupmanagement
-     - yti-codelist-elasticsearch
-     - yti-postgres
+      - yti-groupmanagement
+      - yti-codelist-elasticsearch
+      - yti-postgres
     links:
-     - yti-groupmanagement
-     - yti-codelist-elasticsearch
-     - yti-postgres
+      - yti-groupmanagement
+      - yti-codelist-elasticsearch
+      - yti-postgres
     networks:
-     - yti-network
+      - yti-network
 
   yti-codelist-public-api-service:
     image: docker-registry.rahti.csc.fi/mscr-test/yti-codelist-public-api-service:latest
     container_name: yti-codelist-public-api-service
     restart: always
     ports:
-     - "9601:9601"
-     - "19601:19601"
+      - "9601:9601"
+      - "19601:19601"
     volumes:
-     - ./config:/config
-     - /tmp/data/yti/yti-codelist-api:/data/yti/yti-codelist-api
-     - ${DATADIR}/data/logs/yti-codelist-api:/data/logs/yti-codelist-api:Z
+      - ./config:/config
+      - /tmp/data/yti/yti-codelist-api:/data/yti/yti-codelist-api
+      - ${DATADIR}/data/logs/yti-codelist-api:/data/logs/yti-codelist-api:Z
     command: -j -Xmx512M -a --spring.profiles.active=default,docker --spring.config.location=/config/application.yml,/config/yti-codelist-public-api-service.yml
     depends_on:
-     - yti-codelist-elasticsearch
+      - yti-codelist-elasticsearch
     links:
-     - yti-codelist-elasticsearch
+      - yti-codelist-elasticsearch
     networks:
-     - yti-network
+      - yti-network
 
   # TERMINOLOGY
 
@@ -198,61 +197,61 @@ services:
     container_name: "yti-terminology-termed-api"
     restart: always
     environment:
-     - SPRING_PROFILES_ACTIVE=default,docker
-     - SPRING_CONFIG_LOCATION=/config/yti-terminology-termed-api.properties
+      - SPRING_PROFILES_ACTIVE=default,docker
+      - SPRING_CONFIG_LOCATION=/config/yti-terminology-termed-api.properties
     ports:
-     - "9102:8080"
+      - "9102:8080"
     volumes:
-     - ./config:/config:Z
-     - ${DATADIR}/data/logs/yti-terminology-termed-api:/data/logs/yti-terminology-termed-api:Z
+      - ./config:/config:Z
+      - ${DATADIR}/data/logs/yti-terminology-termed-api:/data/logs/yti-terminology-termed-api:Z
     depends_on:
-     - yti-postgres
+      - yti-postgres
     links:
-     - yti-postgres
+      - yti-postgres
     networks:
-     - yti-network
+      - yti-network
 
   yti-terminology-elasticsearch:
     image: "docker-registry.rahti.csc.fi/mscr-test/mscr-elasticsearch:6.8.22"
     container_name: "yti-terminology-elasticsearch"
     restart: always
     ports:
-     - "9104:9200"
+      - "9104:9200"
     environment:
-     - xpack.security.enabled=false
-     - transport.host=127.0.0.1
-     - http.host=0.0.0.0
-     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+      - transport.host=127.0.0.1
+      - http.host=0.0.0.0
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     networks:
-     - yti-network
+      - yti-network
 
   yti-terminology-api:
     image: "docker-registry.rahti.csc.fi/mscr-test/yti-terminology-api:latest"
     container_name: "yti-terminology-api"
     restart: always
     environment:
-     - SPRING_PROFILES_ACTIVE=default,docker
-     - SPRING_CONFIG_LOCATION=/config/application.yml,/config/yti-terminology-api.yml
+      - SPRING_PROFILES_ACTIVE=default,docker
+      - SPRING_CONFIG_LOCATION=/config/application.yml,/config/yti-terminology-api.yml
     ports:
-     - "9101:9101"
-     - "9103:9103"
+      - "9101:9101"
+      - "9103:9103"
     volumes:
-     - ./config:/config:Z
-     - ${DATADIR}/data/logs/yti-terminology-api:/data/logs/yti-terminology-api:Z
+      - ./config:/config:Z
+      - ${DATADIR}/data/logs/yti-terminology-api:/data/logs/yti-terminology-api:Z
     depends_on:
-     - yti-groupmanagement
-     - yti-terminology-elasticsearch
-     - yti-terminology-termed-api
-     - yti-postgres
-     - yti-activemq
+      - yti-groupmanagement
+      - yti-terminology-elasticsearch
+      - yti-terminology-termed-api
+      - yti-postgres
+      - yti-activemq
     links:
-     - yti-groupmanagement
-     - yti-terminology-elasticsearch
-     - yti-terminology-termed-api
-     - yti-postgres
-     - yti-activemq
+      - yti-groupmanagement
+      - yti-terminology-elasticsearch
+      - yti-terminology-termed-api
+      - yti-postgres
+      - yti-activemq
     networks:
-     - yti-network
+      - yti-network
 
   yti-terminology-ui:
     image: "docker-registry.rahti.csc.fi/mscr-test/yti-terminology-ui:latest"
@@ -260,85 +259,85 @@ services:
     privileged: true
     restart: always
     ports:
-     - "9100:80"
+      - "9100:80"
     depends_on:
-     - yti-terminology-api
+      - yti-terminology-api
     links:
-     - yti-terminology-api
+      - yti-terminology-api
     networks:
-     - yti-network
+      - yti-network
 
   # DATAMODEL
 
-  yti-datamodel-ui:    
+  yti-datamodel-ui:
     image: "docker-registry.rahti.csc.fi/mscr-test/yti-datamodel-ui:latest-build"
     container_name: "yti-datamodel-ui"
     restart: always
     ports:
-     - "9000:80"
+      - "9000:80"
     networks:
-     - yti-network
+      - yti-network
     depends_on:
-     - yti-datamodel-api
+      - yti-datamodel-api
     links:
-     - yti-datamodel-api
-  
-  yti-datamodel-elasticsearch:    
-    image: "docker-registry.rahti.csc.fi/mscr-test/mscr-elasticsearch:6.8.22"
-    container_name: "yti-datamodel-elasticsearch"
+      - yti-datamodel-api
+
+  yti-datamodel-opensearch:
+    image: opensearchproject/opensearch:latest
+    container_name: "yti-datamodel-opensearch"
     restart: always
     ports:
-     - "9002:9200"
+      - "9003:9200"
+      - "9013:9300"
     environment:
-     - xpack.security.enabled=false
-     - cluster.name=yti-datamodel-elasticsearch
-     - http.host=0.0.0.0
-     - network.publish_host=127.0.0.1
-     - discovery.type=single-node
-     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - plugins.security.disabled=true
+      - cluster.name=yti-datamodel-opensearch
+      - http.host=0.0.0.0
+      - network.publish_host=127.0.0.1
+      - discovery.type=single-node
     volumes:
-     - ${DATADIR}/data/logs/yti-datamodel-elasticsearch:/usr/share/elasticsearch/logs:z
+      - ${DATADIR}/data/logs/yti-datamodel-opensearch:/usr/share/opensearch/logs:z
     networks:
-     - yti-network
+      - yti-network
 
-  yti-datamodel-api:    
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-datamodel-api:latest"
+  yti-datamodel-api:
+    image: "docker-registry.rahti.csc.fi/mscr-test/mscr-datamodel-api:latest"
     container_name: "yti-datamodel-api"
     expose:
-     - "9001"
-     - "9004"
+      - "9001"
+      - "9004"
     ports:
-     - "9001:9001"
-     - "9004:9004"
+      - "9001:9001"
+      - "9004:9004"
     environment:
-     - SPRING_PROFILES_ACTIVE=docker
-     - SPRING_CONFIG_LOCATION=/config/application.yml,/config/yti-datamodel-api.yml
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CONFIG_LOCATION=/config/application.yml,/config/yti-datamodel-api.yml
     volumes:
-     - ./config:/config:Z
-     - ${DATADIR}/data/logs/yti-datamodel-api:/data/logs/yti-datamodel-api:Z
+      - ./config:/config:Z
+      - ${DATADIR}/data/logs/yti-datamodel-api:/data/logs/yti-datamodel-api:Z
     depends_on:
-     - yti-fuseki
-     - yti-groupmanagement
-     - yti-datamodel-elasticsearch
-     - yti-terminology-termed-api
+      - yti-fuseki
+      - yti-groupmanagement
+      - yti-datamodel-opensearch
+      - yti-terminology-termed-api
     links:
-     - yti-fuseki
-     - yti-groupmanagement
-     - yti-datamodel-elasticsearch
-     - yti-terminology-termed-api
+      - yti-fuseki
+      - yti-groupmanagement
+      - yti-datamodel-opensearch
+      - yti-terminology-termed-api
     networks:
-     - yti-network
+      - yti-network
 
   yti-fuseki:
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-fuseki"
+    image: "docker-registry.rahti.csc.fi/mscr-test/mscr-fuseki"
     container_name: "yti-fuseki"
     restart: always
     ports:
-     - "3030:3030"
+      - "3030:3030"
     volumes:
-     - ${DATADIR}/data/logs/yti-fuseki:/fuseki/logs:Z
+      - ${DATADIR}/data/logs/yti-fuseki:/fuseki/logs:Z
     networks:
-     - yti-network
+      - yti-network
 
   # COMMENTS
 
@@ -347,34 +346,34 @@ services:
     container_name: "yti-comments-api"
     restart: always
     ports:
-     - "9701:9701"
+      - "9701:9701"
     volumes:
-     - ./config:/config
-     - ${DATADIR}/data/logs/yti-datamodel-api:/data/logs/yti-comments-api:Z
+      - ./config:/config
+      - ${DATADIR}/data/logs/yti-datamodel-api:/data/logs/yti-comments-api:Z
     command: -j -Xmx2048M -a --spring.profiles.active=default,docker --spring.config.location=/config/application.yml,/config/yti-comments-api.yml
     depends_on:
-     - yti-postgres
-     - yti-groupmanagement
+      - yti-postgres
+      - yti-groupmanagement
     links:
-     - yti-postgres
-     - yti-groupmanagement
+      - yti-postgres
+      - yti-groupmanagement
     networks:
-     - yti-network
+      - yti-network
 
   yti-comments-ui:
     image: "docker-registry.rahti.csc.fi/mscr-test/yti-comments-ui:latest"
     container_name: "yti-comments-ui"
     restart: always
     ports:
-     - "9700:80"
+      - "9700:80"
     volumes:
-     - ${DATADIR}/data/logs/yti-datamodel-api:/data/logs/yti-comments-api:Z
+      - ${DATADIR}/data/logs/yti-datamodel-api:/data/logs/yti-comments-api:Z
     depends_on:
-     - yti-comments-api
+      - yti-comments-api
     links:
-     - yti-comments-api
+      - yti-comments-api
     networks:
-     - yti-network
+      - yti-network
 
   # MESSAGING
 
@@ -383,19 +382,19 @@ services:
     container_name: "yti-messaging-api"
     restart: always
     ports:
-     - "9801:9801"
+      - "9801:9801"
     volumes:
-     - ./config:/config
-     - ${DATADIR}/data/logs/yti-messaging-api:/data/logs/yti-messaging-api:Z
+      - ./config:/config
+      - ${DATADIR}/data/logs/yti-messaging-api:/data/logs/yti-messaging-api:Z
     command: -j -Xmx2048M -a --spring.profiles.active=default,docker --spring.config.location=/config/application.yml,/config/yti-messaging-api.yml
     depends_on:
-     - yti-postgres
-     - yti-groupmanagement
+      - yti-postgres
+      - yti-groupmanagement
     links:
-     - yti-postgres
-     - yti-groupmanagement
+      - yti-postgres
+      - yti-groupmanagement
     networks:
-     - yti-network
+      - yti-network
 
 networks:
   yti-network:

@@ -64,7 +64,11 @@ spring:
       on-profile: docker
   elasticsearch:
     uris: http://${environment.datamodel-elastic.host}:${environment.datamodel-elastic.port}
-      
+  datasource:
+    url: jdbc:postgresql://yti-postgres:5432/mscr_datamodel
+    username: mscr
+    password: mscr
+
 server:
   port: 9004
 
@@ -117,3 +121,5 @@ fake:
 impersonate:
   allowed: true
 
+defaultResolveBase: http://uri.suomi.fi
+defaultResolveBaseDomain: uri.suomi.fi
