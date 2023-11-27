@@ -23,7 +23,7 @@ environment:
     port: 9610
   datamodel-elastic:
     host: 127.0.0.1
-    port: 9002
+    port: 9003
   terminology-elastic:
     host: 127.0.0.1
     port: 9104

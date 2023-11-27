@@ -63,7 +63,7 @@ services:
     container_name: yti-postgres
     restart: always
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - ${DATADIR}/data/logs/yti-postgres:/data/logs/yti-postgres:Z
     command: postgres -c logging_collector=on -c log_directory=/data/logs/yti-postgres
@@ -319,12 +319,10 @@ services:
       - yti-fuseki
       - yti-groupmanagement
       - yti-datamodel-opensearch
-      - yti-terminology-termed-api
     links:
       - yti-fuseki
       - yti-groupmanagement
       - yti-datamodel-opensearch
-      - yti-terminology-termed-api
     networks:
       - yti-network
 
