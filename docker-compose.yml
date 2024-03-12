@@ -134,7 +134,7 @@ services:
      - yti-network
 
   yti-datamodel-opensearch:
-    image: opensearchproject/opensearch:latest
+    image: docker-registry.rahti.csc.fi/mscr-test/opensearch:latest
     container_name: "yti-datamodel-opensearch"
     restart: always
     ports:
