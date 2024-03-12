@@ -329,7 +329,7 @@ services:
      - "9001:9001"
      - "9004:9004"
     environment:
-     - SPRING_PROFILES_ACTIVE=docker
+     - SPRING_PROFILES_ACTIVE=docker,dev
      - SPRING_CONFIG_LOCATION=/config/application.yml,/config/yti-datamodel-api.yml
     volumes:
      - ./config:/config:Z
