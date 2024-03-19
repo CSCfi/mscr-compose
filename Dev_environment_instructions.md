@@ -1,5 +1,4 @@
-
-# (To be updated?) Instructions for generating docker images from VRK-YTI repository
+# Instructions for generating docker images from VRK-YTI repository
 
 ## 1. Prerequisites
 
@@ -43,15 +42,13 @@ After that, run ```./build.sh in yti-datamodel-api```
 ### yti-datamodel-ui
 After you have built the correct java17 image for the M1 processor with ```docker build --platform linux/arm64 -t yti-datamodel-api .``` use ```./build.sh```
 
-*NB!!! (comment)* Should it be yti-datamodel-ui at the end of the docker build command? It's from my notes and I have that shell long closed, so I'm not sure about it
-
 ### yti-comments-api
 ```docker build -f docker/Dockerfile -t yti-comments-api  .```
 
 ### yti-messaging-api
 ```docker build -f docker/Dockerfile -t yti-messaging-api .```
 
-### yti-groupmanagement (?? instruction is too short for the amount of effort we poured in this image. But I can't recall anything else that would've been relevant)
+### yti-groupmanagement
 You would need node 14.18.2 installed locally. Change node-sass’ package version in package.json to 5.0.0 and set ```download = false``` in the ‘node’ object in the _build.gradle_ file. Then you rebuild the package
 
 ### yti-codelist-ui
@@ -85,33 +82,69 @@ then run ```./build.sh```
 ### yti-comments-ui
 
 
-## 3. After the images have been built – Docker final touches (is it needed?)
+## 3. After the images have been built – Docker final touches
 
 ### Changing images' names
-In docker-compose.yml, change names of images from eg *yti-example-name* to *docker-registry.rahti.csc.fi/mscr-test/yti-example-name:latest-arm64-v8*
+**NB!** These instructions have been written with Apple's M1 processors in mind. If you use a machine with a different processor, please adjusts the tags (part after the colon sign) below accordingly.
+
+In docker-compose.yml, change names of images from eg *yti-example-name:latest*, *yti-example-name:latest-build* , *yti-example-name:somthing_else* to *docker-registry.rahti.csc.fi/mscr-test/yti-example-name:latest-arm64-v8*. Do it for all images.
 
 
 ### Adding OpenSearch
 
-Add the following code in /mscr-compose/docker-compose.yml 
+Add the following code in /mscr-compose/docker-compose.yml to add OpenSearch.
 ```
 yti-datamodel-opensearch:
-image: opensearchproject/opensearch:latest
-container_name: "yti-datamodel-opensearch"
-restart: always
-ports:
-- "9003:9200"
-- "9013:9300"
-environment:
-- plugins.security.disabled=true
-- cluster.name=yti-datamodel-opensearch
-- http.host=0.0.0.0
-- network.publish_host=127.0.0.1
-- discovery.type=single-node
-volumes:
-- ${DATADIR}/data/logs/yti-datamodel-opensearch:/usr/share/opensearch/logs:z
-networks:
-- yti-network
+    image: opensearchproject/opensearch:latest
+    container_name: "yti-datamodel-opensearch"
+    restart: always
+    ports:
+    - "9003:9200"
+    - "9013:9300"
+    environment:
+    - plugins.security.disabled=true
+    - cluster.name=yti-datamodel-opensearch
+    - http.host=0.0.0.0
+    - network.publish_host=127.0.0.1
+    - discovery.type=single-node
+    volumes:
+    - ${DATADIR}/data/logs/yti-datamodel-opensearch:/usr/share/opensearch/logs:z
+    networks:
+    - yti-network
+```
+
+### Updating yti-datamodel-api
+
+Add the following code in /mscr-compose/docker-compose.yml to add new links and dependencies to yti-datamodel-api.
+
+```
+yti-datamodel-api:    
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-datamodel-api:latest-arm64-v8"
+    container_name: "yti-datamodel-api"
+    expose:
+     - "9001"
+     - "9004"
+    ports:
+     - "9001:9001"
+     - "9004:9004"
+    environment:
+     - SPRING_PROFILES_ACTIVE=docker
+     - SPRING_CONFIG_LOCATION=/config/application.yml,/config/yti-datamodel-api.yml
+    volumes:
+     - ./config:/config:Z
+     - ${DATADIR}/data/logs/yti-datamodel-api:/data/logs/yti-datamodel-api:Z
+    depends_on:
+     - yti-fuseki
+     - yti-groupmanagement
+     - yti-datamodel-opensearch
+     - yti-terminology-termed-api
+    links:
+     - yti-fuseki
+     - yti-groupmanagement
+     - yti-datamodel-opensearch
+     - yti-terminology-termed-api
+    networks:
+     - yti-network
 ```
 
 ### Composing containers
@@ -158,7 +191,7 @@ messagingEnabled=false
 groupmanagement.url=http://localhost:9302
 groupmanagement.public.url=http://localhost:9302
 
-Old elasticsearch properties
+#Old elasticsearch properties
 
 elasticHost=127.0.0.1
 elasticPort=9300

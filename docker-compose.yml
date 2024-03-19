@@ -59,7 +59,7 @@ services:
   # POSTGRES
 
   yti-postgres:
-    image: docker-registry.rahti.csc.fi/mscr-test/yti-postgres:latest
+    image:  docker-registry.rahti.csc.fi/mscr-test/yti-postgres:latest-arm64-v8
     container_name: yti-postgres
     restart: always
     ports:
@@ -95,7 +95,7 @@ services:
   # GROUPMANAGEMENT
 
   yti-groupmanagement:
-    image: docker-registry.rahti.csc.fi/mscr-test/yti-groupmanagement:latest
+    image: docker-registry.rahti.csc.fi/mscr-test/yti-groupmanagement:latest-arm64-v8
     container_name: yti-groupmanagement
     restart: always
     ports:
@@ -132,8 +132,26 @@ services:
     networks:
       - yti-network
 
+  yti-datamodel-opensearch:
+    image: docker-registry.rahti.csc.fi/mscr-test/opensearch:latest
+    container_name: "yti-datamodel-opensearch"
+    restart: always
+    ports:
+    - "9003:9200"
+    - "9013:9300"
+    environment:
+    - plugins.security.disabled=true
+    - cluster.name=yti-datamodel-opensearch
+    - http.host=0.0.0.0
+    - network.publish_host=127.0.0.1
+    - discovery.type=single-node
+    volumes:
+    - ${DATADIR}/data/logs/yti-datamodel-opensearch:/usr/share/opensearch/logs:z
+    networks:
+    - yti-network
+
   yti-codelist-ui:
-    image: docker-registry.rahti.csc.fi/mscr-test/yti-codelist-ui:latest
+    image: docker-registry.rahti.csc.fi/mscr-test/yti-codelist-ui:latest-arm64-v8
     container_name: yti-codelist-ui
     privileged: true
     restart: always
@@ -149,7 +167,7 @@ services:
       - yti-network
 
   yti-codelist-content-intake-service:
-    image: docker-registry.rahti.csc.fi/mscr-test/yti-codelist-content-intake-service:latest
+    image: docker-registry.rahti.csc.fi/mscr-test/yti-codelist-content-intake-service:latest-arm64-v8
     container_name: yti-codelist-content-intake-service
     restart: always
     ports:
@@ -172,7 +190,7 @@ services:
       - yti-network
 
   yti-codelist-public-api-service:
-    image: docker-registry.rahti.csc.fi/mscr-test/yti-codelist-public-api-service:latest
+    image: docker-registry.rahti.csc.fi/mscr-test/yti-codelist-public-api-service:latest-arm64-v8
     container_name: yti-codelist-public-api-service
     restart: always
     ports:
@@ -193,7 +211,7 @@ services:
   # TERMINOLOGY
 
   yti-terminology-termed-api:
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-terminology-termed-api:latest"
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-terminology-termed-api:latest-arm64-v8"
     container_name: "yti-terminology-termed-api"
     restart: always
     environment:
@@ -212,7 +230,7 @@ services:
       - yti-network
 
   yti-terminology-elasticsearch:
-    image: "docker-registry.rahti.csc.fi/mscr-test/mscr-elasticsearch:6.8.22"
+    image: "docker-registry.rahti.csc.fi/mscr-elasticsearch:6.8.22-arm64-v8"
     container_name: "yti-terminology-elasticsearch"
     restart: always
     ports:
@@ -226,7 +244,7 @@ services:
       - yti-network
 
   yti-terminology-api:
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-terminology-api:latest"
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-terminology-api:latest-arm64-v8"
     container_name: "yti-terminology-api"
     restart: always
     environment:
@@ -254,7 +272,7 @@ services:
       - yti-network
 
   yti-terminology-ui:
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-terminology-ui:latest"
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-terminology-ui:latest-arm64-v8"
     container_name: "yti-terminology-ui"
     privileged: true
     restart: always
@@ -310,21 +328,21 @@ services:
       - "9001:9001"
       - "9004:9004"
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_CONFIG_LOCATION=/config/application.yml,/config/yti-datamodel-api.yml
+     - SPRING_PROFILES_ACTIVE=docker,local
+     - SPRING_CONFIG_LOCATION=/config/application.yml,/config/yti-datamodel-api.yml
     volumes:
       - ./config:/config:Z
       - ${DATADIR}/data/logs/yti-datamodel-api:/data/logs/yti-datamodel-api:Z
     depends_on:
-      - yti-fuseki
-      - yti-groupmanagement
-      - yti-datamodel-opensearch
-      - yti-terminology-termed-api
+     - yti-fuseki
+     - yti-groupmanagement
+     - yti-datamodel-opensearch
+     - yti-terminology-termed-api
     links:
-      - yti-fuseki
-      - yti-groupmanagement
-      - yti-datamodel-opensearch
-      - yti-terminology-termed-api
+     - yti-fuseki
+     - yti-groupmanagement
+     - yti-datamodel-opensearch
+     - yti-terminology-termed-api
     networks:
       - yti-network
 
@@ -342,7 +360,7 @@ services:
   # COMMENTS
 
   yti-comments-api:
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-comments-api:latest"
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-comments-api:latest-arm64-v8"
     container_name: "yti-comments-api"
     restart: always
     ports:
@@ -361,7 +379,7 @@ services:
       - yti-network
 
   yti-comments-ui:
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-comments-ui:latest"
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-comments-ui:latest-arm64-v8"
     container_name: "yti-comments-ui"
     restart: always
     ports:
@@ -378,7 +396,7 @@ services:
   # MESSAGING
 
   yti-messaging-api:
-    image: "docker-registry.rahti.csc.fi/mscr-test/yti-messaging-api:latest"
+    image: "docker-registry.rahti.csc.fi/mscr-test/yti-messaging-api:latest-arm64-v8"
     container_name: "yti-messaging-api"
     restart: always
     ports:
