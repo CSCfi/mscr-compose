@@ -76,7 +76,7 @@ services:
   # ACTIVEMQ
 
   yti-activemq:
-    image: docker-registry.rahti.csc.fi/mscr-test/yti-activemq:latest
+    image: docker-registry.rahti.csc.fi/mscr-test/yti-messaging-api:activemq
     container_name: yti-activemq
     restart: always
     ports:
@@ -395,6 +395,8 @@ services:
       - yti-groupmanagement
     networks:
       - yti-network
+
+
 
 networks:
   yti-network:
