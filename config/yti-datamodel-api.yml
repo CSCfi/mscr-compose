@@ -117,3 +117,11 @@ fake:
 impersonate:
   allowed: true
 
+pidms:
+  apikey: ${PIDMS_TOKEN}
+  url: https://pidms-test.2.rahtiapp.fi
+  prefix: "21.T"
+  mscrUrl: https://mscr-test.rahtiapp.fi
+
+dtr:
+  typeAPIEndpoint: https://typeapi.lab.pidconsortium.net/v1/types/schema/ 
