@@ -283,7 +283,7 @@ services:
       - yti-datamodel-api
 
   yti-datamodel-opensearch:
-    image: opensearchproject/opensearch:latest
+    image: docker-registry.rahti.csc.fi/mscr-test/opensearch:latest
     container_name: "yti-datamodel-opensearch"
     restart: always
     ports:
@@ -310,7 +310,7 @@ services:
       - "9001:9001"
       - "9004:9004"
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_PROFILES_ACTIVE=docker,dev
       - SPRING_CONFIG_LOCATION=/config/application.yml,/config/yti-datamodel-api.yml
     volumes:
       - ./config:/config:Z
@@ -319,12 +319,10 @@ services:
       - yti-fuseki
       - yti-groupmanagement
       - yti-datamodel-opensearch
-      - yti-terminology-termed-api
     links:
       - yti-fuseki
       - yti-groupmanagement
       - yti-datamodel-opensearch
-      - yti-terminology-termed-api
     networks:
       - yti-network
 
