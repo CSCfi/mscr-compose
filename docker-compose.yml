@@ -63,7 +63,7 @@ services:
     container_name: yti-postgres
     restart: always
     ports:
-      - "5433:5432"
+      - "5435:5432"
     volumes:
       - ${DATADIR}/data/logs/yti-postgres:/data/logs/yti-postgres:Z
     command: postgres -c logging_collector=on -c log_directory=/data/logs/yti-postgres
@@ -283,7 +283,7 @@ services:
       - yti-datamodel-api
 
   yti-datamodel-opensearch:
-    image: opensearchproject/opensearch:latest
+    image: docker-registry.rahti.csc.fi/mscr-test/opensearch:latest
     container_name: "yti-datamodel-opensearch"
     restart: always
     ports:
@@ -310,7 +310,7 @@ services:
       - "9001:9001"
       - "9004:9004"
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_PROFILES_ACTIVE=docker,dev
       - SPRING_CONFIG_LOCATION=/config/application.yml,/config/yti-datamodel-api.yml
     volumes:
       - ./config:/config:Z
