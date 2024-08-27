@@ -17,8 +17,10 @@
     - sudo chmod g+s mscr-data/data/logs/
 
 
-#### Running th
-     run docker-compose up yti-terminology-api.Server starts at localhost:9302. 
+#### Running Datamodel API
+- run docker-compose up yti-terminology-api.
+- Server starts at localhost:9302. 
+     
 #### API Documentation
 - Go to http://localhost:9004/datamodel-api/swagger-ui/index.html, click Authorize and insert your token to use Swagger
 - You can try the api calls after you have been authorized and have own token.
