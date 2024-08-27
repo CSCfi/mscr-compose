@@ -320,7 +320,7 @@ services:
 
   yti-datamodel-api:
     image: "docker-registry.rahti.csc.fi/mscr-test/mscr-datamodel-api:latest"
-    container_name: "yti-datamodel-api"
+    container_name: "ytiyti-datamodel-api"
     expose:
       - "9001"
       - "9004"
@@ -328,7 +328,7 @@ services:
       - "9001:9001"
       - "9004:9004"
     environment:
-     - SPRING_PROFILES_ACTIVE=docker,local
+     - SPRING_PROFILES_ACTIVE=docker,dev
      - SPRING_CONFIG_LOCATION=/config/application.yml,/config/yti-datamodel-api.yml
     volumes:
       - ./config:/config:Z

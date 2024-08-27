@@ -128,4 +128,10 @@ pidms:
   mscrUrl: https://mscr-test.rahtiapp.fi
 
 dtr:
-  typeAPIEndpoint: https://typeapi.lab.pidconsortium.net/v1/types/schema/ 
+  typeAPIEndpoint: https://typeapi.lab.pidconsortium.net/v1/types/schema/
+  typesense:
+    collectionURL: http://141.5.103.83:8108/collections/types
+    key: gmxnqtsujx
+
+defaultResolveBase: http://uri.suomi.fi
+defaultResolveBaseDomain: uri.suomi.fi
