@@ -33,7 +33,8 @@
         create database mscr_datamodel with owner mscr;
 
 #### Create admin account
-- go to scripts directory and run bash init-admin.sh command to create the admin user.
+- go to scripts directory and run 
+    bash init-admin.sh command to create the admin user.
 
 #### logs of postgres container
 
