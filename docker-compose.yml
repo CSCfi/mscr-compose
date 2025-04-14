@@ -59,7 +59,7 @@ services:
   # POSTGRES
 
   yti-postgres:
-    image: docker-registry.rahti.csc.fi/mscr-test/yti-postgres:latest
+    image: image-registry.apps.2.rahti.csc.fi/mscr-test/yti-postgres
     container_name: yti-postgres
     restart: always
     ports:
