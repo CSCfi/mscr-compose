@@ -34,12 +34,18 @@
 
 #### Create admin account
 - go to scripts directory and run 
-    bash init-admin.sh command to create the admin user.
+    bash init-admin.sh command to create the admin user.          
 
 #### logs of postgres container
 
     docker logs yti-postgres
 
+#### Updating docker image
+    - Login to rahti 2
+    - get the credentials from rahti 2 with copy token command
+    - Login in rahti 2 image registry with the command : docker login -p $(oc whoami -t ) -u unused image-registry.apps.2.rahti.csc.fi
+     (https://docs.csc.fi/cloud/rahti2/images/Using_Rahti_2_integrated_registry/)
+    - docker pull image-registry.apps.2.rahti.csc.fi/mscr-test/mscr-datamodel-api:latest
 
 
 

@@ -134,3 +134,12 @@ dtr:
 
 defaultResolveBase: http://uri.suomi.fi
 defaultResolveBaseDomain: uri.suomi.fi
+
+transformation:
+  rml:
+    url: http://mscr-rmltransformer.mscr-release.svc:9999/transform
+  xslt:
+    url: http://mscr-xslttransformer.mscr-release.svc:9998/transform
+
+messaging:
+  baseurl: http://mscr-messaging-api.mscr-test.svc:9801/messaging-api/api/v1/
