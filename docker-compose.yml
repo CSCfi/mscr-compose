@@ -321,11 +321,13 @@ services:
      - yti-groupmanagement
      - yti-datamodel-opensearch
      - yti-terminology-termed-api
+     - mscr-messaging-api
     links:
      - yti-fuseki
      - yti-groupmanagement
      - yti-datamodel-opensearch
      - yti-terminology-termed-api
+     - mscr-messaging-api
     networks:
       - yti-network
 
@@ -390,6 +392,8 @@ services:
     volumes:
      - ./config:/config
     command: -j -Xmx2048M -a --spring.profiles.active=default,docker --spring.config.location=/config/application.yml,/config/yti-messaging-api.yml
+    networks:
+      - yti-network
 
 
 networks:

@@ -29,7 +29,7 @@
 #### Setting up the database
 - In the terminal of yti-postgres container run the following commands:
         psql -U postgres
-        create user mscr with password 'msrc';
+        create user mscr with password 'mscr';
         create database mscr_datamodel with owner mscr;
 
 #### Create admin account

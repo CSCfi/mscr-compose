@@ -4,7 +4,7 @@ spring:
     activate:
       on-profile: local
   application:
-    name: yti-messaging-api
+    name: mscr-messaging-api
   mail:
     host: smtp.gmail.com
     port: 587
@@ -66,9 +66,9 @@ session:
   timeout-mins: 10
 
 hikari:
-  jdbcUrl: jdbc:postgresql://${environment.postgres.host}:${environment.postgres.port}/${service.database-name}
+  jdbcUrl: jdbc:postgresql://yti-postgres:5432/yti_messaging
   username: postgres
-  password:
+  password: 
   minimumIdle: 10
   maximumPoolSize: 10
 
@@ -88,7 +88,7 @@ spring:
     activate:
       on-profile: docker
   application:
-    name: yti-messaging-api
+    name: mscr-messaging-api
   mail:
     host: smtp.gmail.com
     port: 587
@@ -150,9 +150,9 @@ session:
   timeout-mins: 10
 
 hikari:
-  jdbcUrl: jdbc:postgresql://${environment.postgres.host}:${environment.postgres.port}/${service.database-name}
+  jdbcUrl: jdbc:postgresql://yti-postgres:5432/yti_messaging
   username: postgres
-  password:
+  password: 
   minimumIdle: 10
   maximumPoolSize: 10
 
